@@ -889,6 +889,11 @@ void AxonGammaDistribution::GrowAllAxons(){
             ICVF(axons, glial_pop1, glial_pop2, blood_vessels);
             cout << "ICVF axons :" << axons_icvf << endl;
 
+            if (beading_variation == 0 || beading_std == 0){
+                stop = true;
+                break;
+            }
+
             
             int nbr_attempts = 0;
             double percentage_swelling = 0.1;
@@ -1025,7 +1030,7 @@ void AxonGammaDistribution::createSubstrate()
 
 void AxonGammaDistribution::PlaceBloodVessels(){
 
-    double mean_vessel_rad = 4;
+    double mean_vessel_rad = 6;
     double std_vessel_rad = 1;
     double achieved_icvf = 0.0;
     const int MAX_GLOBAL_FAILS = 10000;
@@ -1040,7 +1045,6 @@ void AxonGammaDistribution::PlaceBloodVessels(){
 
     int global_fail_count = 0;
 
-    cout << "Target blood vessels icvf :" << target_blood_vessels_icvf << endl;
     while(achieved_icvf < target_blood_vessels_icvf && global_fail_count < MAX_GLOBAL_FAILS){
         Sphere s;
         for (int attempt = 0; attempt < 100; ++attempt) {
@@ -1059,7 +1063,6 @@ void AxonGammaDistribution::PlaceBloodVessels(){
         }
         if (!placed) {
             ++global_fail_count;
-            cout << "Could not place blood vessel after many attempts, trying another position..." << endl;
             continue; // try placing another cell; loop terminates via MAX_GLOBAL_FAILS_1
         }
         else{
@@ -1072,7 +1075,6 @@ void AxonGammaDistribution::PlaceBloodVessels(){
             blood_vessels.push_back(bv);
         }
     }
-    cout <<"number of blood vessels : " << blood_vessels.size() <<  endl;
 
     blood_vessels_icvf = achieved_icvf;
 }
@@ -1090,7 +1092,7 @@ void AxonGammaDistribution::GrowBloodVessels() {
         // Prefer references instead of raw pointers where possible.
         BloodVesselGrowth grow(
             bv,  &glial_pop1, &glial_pop2, &axons, &blood_vessels,
-            min_limits, max_limits, min_limits, max_limits, 0.0, barrier_tickness 
+            min_limits, max_limits, min_limits, max_limits, 0.1, barrier_tickness 
         );
 
         // NOTE: name says "Thread"—ensure it is synchronous here (blocking).

@@ -64,6 +64,7 @@ private:
     QGroupBox *glialGroup1;
     QGroupBox *glialGroup2;
 
+    QLabel *nbr_repetitions_qlabel;
     QLabel *visualise_voxel_qlabel;
     QLabel *axons_icvf_qlabel;
     QLabel *axons_w_myelin_icvf_qlabel;
@@ -99,6 +100,7 @@ private:
     QLabel *k2_qlabel;
     QLabel *k3_qlabel;
 
+    QDoubleSpinBox *nbr_repetitions_SpinBox;
     QCheckBox *visualise_voxel_checkbox;
     QCheckBox *glial_pop1_branching_checkbox;
     QCheckBox *glial_pop2_branching_checkbox;
@@ -155,6 +157,7 @@ private:
 
 
     // Additional member variables to store values
+    int nbr_repetitions;
     int axons_icvf;
     int axons_w_myelin_icvf;
     int glial_pop1_soma_icvf;
